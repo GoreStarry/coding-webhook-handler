@@ -34,14 +34,14 @@ function create(options) {
       callback(err)
     }
 
-    var agent = req.headers['user-agent'],
-      event = req.headers['x-coding-event']
+    // var agent = req.headers['user-agent'],
+    //   event = req.headers['x-coding-event']
 
-    if (agent !== 'Coding.net Hook')
-      return hasError('Invalid User-Agent')
+    // if (agent !== 'Coding.net Hook')
+    //   return hasError('Invalid User-Agent')
 
-    if (!event)
-      return hasError('No X-Coding-Event found on request')
+    // if (!event)
+    //   return hasError('No X-Coding-Event found on request')
 
     req.pipe(bl(function(err, data) {
       if (err) {
@@ -64,7 +64,7 @@ function create(options) {
       })
 
       res.end(JSON.stringify({
-        zen: 'Coding！ 让开发更简单'
+        zen: 'Webhook Server 收到！'
       }))
 
       var emitData = {
