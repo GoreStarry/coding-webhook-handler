@@ -35,7 +35,7 @@ function create(options) {
     }
 
     // var agent = req.headers['user-agent'],
-    //   event = req.headers['x-coding-event']
+    var event = req.headers['x-coding-event'] || 'push'
 
     // if (agent !== 'Coding.net Hook')
     //   return hasError('Invalid User-Agent')
@@ -56,8 +56,12 @@ function create(options) {
         return hasError(e)
       }
 
-      if(obj.token !== options.token)
-        return hasError('The token does not match')
+      try {
+        if(req.url.split('?')[1].split('=')[1] !== options.token)
+          return hasError('The token does not match')
+      } catch (error) {
+        return hasError('Not have token')
+      }
 
       res.writeHead(200, {
         'content-type': 'application/json'
@@ -68,7 +72,7 @@ function create(options) {
       }))
 
       var emitData = {
-        event: event,
+        event: event ,
         payload: obj,
         protocol: req.protocol,
         host: req.headers['host'],
